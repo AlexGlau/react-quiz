@@ -29,7 +29,7 @@ function Input(props) {
       />
       {
         isInvalid(props)
-          ? <span>{props.errorMessage}</span>
+          ? <span>{props.errorMessage || 'Enter correct value'}</span>
           : null
       }
     </div>
