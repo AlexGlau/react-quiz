@@ -5,6 +5,35 @@ import Input from '../../components/UI/Input/Input.jsx';
 
 class Auth extends Component {
 
+  state = {
+    formControls: {
+      email: {
+        value: '',
+        type: 'email',
+        label: 'Email',
+        errorMessage: 'Enter correct email',
+        valid: false,
+        touched: false,
+        validation: {
+          required: true,
+          email: true
+        }
+      },
+      password: {
+        value: '',
+        type: 'password',
+        label: 'Password',
+        errorMessage: 'Enter correct password',
+        valid: false,
+        touched: false,
+        validation: {
+          required: true,
+          minLength: 6
+        }
+      }
+    }
+  }
+
   loginHandler = () => {
 
   };
@@ -17,6 +46,31 @@ class Auth extends Component {
     event.preventDefault();
   };
 
+  onChangeHandler = (event, controlName) => {
+    console.log(`${controlName}: `, event.target.value);
+  };
+
+  renderInputs() {
+    return Object.keys(this.state.formControls).map((controlName, i) => {
+      const control = this.state.formControls[controlName]
+      return (
+        <Input
+          key={control + i}
+          type={control.type}
+          value={control.value}
+          valid={control.valid}
+          touched={control.touched}
+          label={control.label}
+          errorMessage={control.errorMessage}
+          shouldValidate={!!control.validation}
+          onChange={(event) => {
+            this.onChangeHandler(event, controlName)
+          }}
+        />
+      );
+    });
+  };
+
   render() {
     return (
       <div className={classes.Auth}>
@@ -24,9 +78,8 @@ class Auth extends Component {
           <h1>Authorization</h1>
 
           <form className={classes.AuthForm}>
-            <Input label='Email' />
 
-            <Input label='Password' />
+            {this.renderInputs()}
 
               <Button
                 type='success'
