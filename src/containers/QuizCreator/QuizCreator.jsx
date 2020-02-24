@@ -3,7 +3,7 @@ import classes from './QuizCreator.module.css';
 import Button from '../../components/UI/Button/Button.jsx';
 import Input from '../../components/UI/Input/Input.jsx';
 import Select from '../../components/UI/Select/Select.jsx';
-import { createControl } from '../../form/formFramework.js';
+import { createControl, validate, validateForm } from '../../form/formFramework.js';
 import Auxilary from '../../hoc/Auxilary/Auxilary.js';
 
 function createOptionControl(number) {
@@ -32,6 +32,7 @@ class QuizCreator extends Component {
   state = {
     quiz: [],
     rightAnswerId: 1,
+    isFormValid: false,
     formControls: createFormControls()
   }
 
@@ -48,7 +49,19 @@ class QuizCreator extends Component {
   };
 
   changeHandler = (value, controlName) => {
+    const formControls = {...this.state.formControls};
+    const control = {...formControls[controlName]};
 
+    control.touched = true;
+    control.value = value;
+    control.valid = validate(control.value, control.validation);
+
+    formControls[controlName] = control;
+
+    this.setState({
+      formControls,
+      isFormValid: validateForm(formControls)
+    });
   }
 
   renderControls() {
