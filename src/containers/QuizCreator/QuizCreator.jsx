@@ -40,8 +40,8 @@ class QuizCreator extends Component {
     event.preventDefault();
   };
 
-  addQuestionHandler = () => {
-
+  addQuestionHandler = (event) => {
+    event.preventDefault();
   };
 
   createQuizHandler = () => {
