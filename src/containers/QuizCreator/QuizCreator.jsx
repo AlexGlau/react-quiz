@@ -119,6 +119,7 @@ class QuizCreator extends Component {
             <Button
               type='primary'
               onClick={this.addQuestionHandler}
+              disabled={!this.state.isFormValid}
             >
               Add question
             </Button>
@@ -126,6 +127,7 @@ class QuizCreator extends Component {
             <Button
               type='success'
               onClick={this.createQuizHandler}
+              disabled={this.state.quiz.length === 0}
             >
               Create test
             </Button>
