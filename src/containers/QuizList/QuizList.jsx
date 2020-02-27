@@ -28,8 +28,8 @@ class QuizList extends Component {
   async componentDidMount() {
     try {
       const response = await axios.get('quizes.json');
-
       const quizes = [];
+
       Object.keys(response.data).forEach((key, i) => {
         quizes.push({
           id: key,
@@ -43,7 +43,7 @@ class QuizList extends Component {
       });
 
     } catch (error) {
-      console.log('error: ', error);
+      console.log(error);
     }
   }
 
@@ -52,7 +52,6 @@ class QuizList extends Component {
       <div className={classes.QuizList}>
         <div>
           <h1>Quiz List</h1>
-
           {
             this.state.loading
               ? <Loader />
