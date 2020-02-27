@@ -14,7 +14,7 @@ function createOptionControl(number) {
   }, {required: true})
 }
 
-function createFormControls(params) {
+function createFormControls() {
   return  {
     question: createControl({
       label: 'Enter question',
@@ -76,8 +76,10 @@ class QuizCreator extends Component {
     });
   };
 
-  createQuizHandler = () => {
+  createQuizHandler = (event) => {
+    event.preventDefault();
 
+    console.log(this.state.quiz);
   };
 
   changeHandler = (value, controlName) => {
