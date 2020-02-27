@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import classes from './Quiz.module.css';
 import ActiveQuiz from '../../components/ActiveQuiz/AcitveQuiz.jsx';
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz.jsx';
+import axios from '../../axios/axios-quiz.js';
+import Loader from '../../components/UI/Loader/Loader.jsx';
 
 
 class Quiz extends Component {
@@ -10,30 +12,8 @@ class Quiz extends Component {
     isFinished: false,
     activeQuestion: 0,
     answerState: null,
-    quiz: [
-      {
-        question: 'What color is the sky?',
-        id: 1,
-        rightAnswer: 3,
-        answers: [
-          {text: 'Black', id: 1},
-          {text: 'Green', id: 2},
-          {text: 'Blue', id: 3},
-          {text: 'Pink', id: 4}
-        ]
-      },
-      {
-        question: 'How many months in a year?',
-        id: 2,
-        rightAnswer: 4,
-        answers: [
-          {text: '19', id: 1},
-          {text: '13', id: 2},
-          {text: '11', id: 3},
-          {text: '12', id: 4}
-        ]
-      }
-    ]
+    quiz: [],
+    loading: true
   }
 
   isQuizFinished() {
@@ -51,7 +31,8 @@ class Quiz extends Component {
     const question = this.state.quiz[this.state.activeQuestion];
     const results = this.state.results;
 
-    if (question.rightAnswer === answerId) {
+    if (question.rightAnswerId === answerId) {
+
       if (!results[question.id]) {
         results[question.id] = 'success';
       }
@@ -95,26 +76,43 @@ class Quiz extends Component {
     });
   }
 
+  async componentDidMount() {
+    try {
+      const response = await axios.get(`/quizes/${this.props.match.params.id}.json`);
+      const quiz = response.data;
+
+      this.setState({
+        quiz,
+        loading: false
+      });
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   render() {
     return (
       <div className={classes.Quiz}>
         <div className={classes.QuizWrapper}>
           <h1>Answer the all questions</h1>
           {
-            this.state.isFinished
-            ? <FinishedQuiz
-                results={this.state.results}
-                quiz={this.state.quiz}
-                onRetry={this.retryHandler}
-              />
-            : <ActiveQuiz
-                question={this.state.quiz[this.state.activeQuestion].question}
-                answers={this.state.quiz[this.state.activeQuestion].answers}
-                onAnswerClick={this.onAnswerClickHandler}
-                quizLength={this.state.quiz.length}
-                answerNumber={this.state.activeQuestion + 1}
-                state={this.state.answerState}
-            />
+            this.state.loading
+              ? <Loader />
+              : this.state.isFinished
+                ? <FinishedQuiz
+                    results={this.state.results}
+                    quiz={this.state.quiz}
+                    onRetry={this.retryHandler}
+                  />
+                : <ActiveQuiz
+                    question={this.state.quiz[this.state.activeQuestion].question}
+                    answers={this.state.quiz[this.state.activeQuestion].answers}
+                    onAnswerClick={this.onAnswerClickHandler}
+                    quizLength={this.state.quiz.length}
+                    answerNumber={this.state.activeQuestion + 1}
+                    state={this.state.answerState}
+                />
           }
         </div>
       </div>
