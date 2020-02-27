@@ -84,7 +84,7 @@ class QuizCreator extends Component {
     try {
       await axios.post('/quizes.json', this.state.quiz);
 
-      this.state({
+      this.setState({
         quiz: [],
         rightAnswerId: 1,
         isFormValid: false,
