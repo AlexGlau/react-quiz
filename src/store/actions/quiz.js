@@ -106,8 +106,6 @@ export function retryQuiz() {
 }
 
 export function quizAnswerClick(answerId) {
-  console.log('first asnwerId: ', answerId);
-
   return (dispatch, getState) => {
     const state = getState().quiz;
 
@@ -119,18 +117,10 @@ export function quizAnswerClick(answerId) {
     }
 
     const question = state.quiz[state.activeQuestion];
-    console.log('question: ', question);
     const results = state.results;
-    console.log('results: ', results);
-
 
     if (question.rightAnswerId === answerId) {
-      console.log('question id: ', question.id);
-      console.log('answerId: ', answerId);
-      console.log('results[question.id]: ', results[question.id]);
-
       if (!results[question.id]) {
-        // console.log('results[question.id]: ', results[question.id]);
         results[question.id] = 'success';
       }
 
