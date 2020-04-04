@@ -46,7 +46,7 @@ class Auth extends Component {
 
     try {
       const response = await axios.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD5ql78b15dYHc2INT9iFfSo37mP29eGDg',
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=',
           signInData
         );
         console.log(response.data);
@@ -64,7 +64,7 @@ class Auth extends Component {
 
     try {
       const response = await axios.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD5ql78b15dYHc2INT9iFfSo37mP29eGDg',
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=',
           signUpData
         );
         console.log(response.data);
