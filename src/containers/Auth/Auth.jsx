@@ -52,6 +52,7 @@ class Auth extends Component {
       this.state.formControls.password.value,
       false
     );
+
   };
 
   submitHandler = (event) => {
