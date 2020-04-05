@@ -7,18 +7,24 @@ import Auth from './containers/Auth/Auth.jsx';
 import QuizCreator from './containers/QuizCreator/QuizCreator.jsx';
 import QuizList from './containers/QuizList/QuizList.jsx';
 import { connect } from 'react-redux';
-import Logout from './components/Logout/Logout';
+import Logout from './components/Logout/Logout.jsx';
+import { autoLogin } from './store/actions/auth.js';
 
 
 class App extends Component {
+
+  componentDidMount() {
+    this.props.autoLogin();
+  }
+
   render() {
 
     let routes = (
       <Switch>
         <Route path='/auth' component={Auth} />
         <Route path='/quiz/:id' component={Quiz} />
-        <Route path='/' component={QuizList} />
-        <Redirect to="/" />
+        <Route path='/' exact component={QuizList} />
+        <Redirect to='/' />
       </Switch>
     );
 
@@ -27,9 +33,9 @@ class App extends Component {
         <Switch>
           <Route path='/quiz-creator' component={QuizCreator} />
           <Route path='/quiz/:id' component={Quiz} />
-          <Route path='/' component={QuizList} />
           <Route path='/logout' component={Logout} />
-          <Redirect to="/" />
+          <Route path='/' exact component={QuizList} />
+          <Redirect to='/' />
         </Switch>
       );
     }
@@ -48,4 +54,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(App));
+function mapDispatchToProps(dispatch) {
+  return {
+    autoLogin: () => dispatch(autoLogin())
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
